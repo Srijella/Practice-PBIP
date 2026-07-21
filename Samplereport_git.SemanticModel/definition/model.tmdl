@@ -10,7 +10,7 @@ annotation __PBI_TimeIntelligenceEnabled = 1
 
 annotation PBI_QueryOrder = ["Customers","Sales","TOPBOTTOM","Table","Table (2)","Test","Table (3)","TopN Selector","Table (5)"]
 
-annotation PBI_ProTooling = ["TMDLView_Desktop","DevMode","DaxQueryView_Desktop"]
+annotation PBI_ProTooling = ["TMDLView_Desktop","DevMode","DaxQueryView_Desktop","TMDL-Extension"]
 
 ref table Customers
 ref table Sales
