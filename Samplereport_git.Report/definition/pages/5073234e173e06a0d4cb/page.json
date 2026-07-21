@@ -1,0 +1,9 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json",
+  "name": "5073234e173e06a0d4cb",
+  "displayName": "Top Customer",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280,
+  "type": "Tooltip"
+}

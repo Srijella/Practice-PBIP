@@ -1,0 +1,17 @@
+table UnionTest
+	lineageTag: b3c05142-fbf7-41f4-b5a9-b6b24cf4cac1
+
+	column UniontestA
+		lineageTag: 23d18f73-ffe9-4be1-9ac1-e4ce9ec71bcc
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Table (2)[UniontestA]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition UnionTest = calculated
+		mode: import
+		source = DISTINCT(UNION('Table (2)','Test'))
+
+	annotation PBI_Id = 69dd27fcfe4b4814bbdf6a451e5c25db
+

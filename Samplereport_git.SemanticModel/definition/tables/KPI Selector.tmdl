@@ -1,0 +1,28 @@
+table 'KPI Selector'
+	lineageTag: a69003a8-0fc7-495d-96d4-579062449e74
+
+	column KPI
+		lineageTag: 0d2dee95-cab8-47d6-ba83-5d6472fe7878
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [KPI]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'KPI Selector' = calculated
+		mode: import
+		source = ```
+				
+				DATATABLE(
+				    "KPI", STRING,
+				    {
+				        {"Sales"},
+				        {"Count"},
+				        {"Average"}
+				    }
+				)
+				
+				```
+
+	annotation PBI_Id = 8664095c38af4c7e99a51b264672356d
+

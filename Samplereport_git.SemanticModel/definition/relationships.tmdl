@@ -1,0 +1,14 @@
+relationship AutoDetected_adec6c53-08d3-4119-8cc5-48e0aa8ad9ca
+	crossFilteringBehavior: bothDirections
+	fromColumn: Sales.'Customer ID'
+	toColumn: Customers.'Customer ID'
+
+relationship e16c11f5-dd67-493e-90d8-aa26985fc355
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DATE.Date
+	toColumn: LocalDateTable_53dfd67d-517e-42aa-93e6-605300279b2a.Date
+
+relationship 941c76fa-5364-76af-c190-407a1f48913e
+	fromColumn: Sales.Date
+	toColumn: DATE.Date
+

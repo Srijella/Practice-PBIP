@@ -1,0 +1,12 @@
+expression 'Table (3)' =
+		let
+		    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45W8g7wVIrViVYKTsxJLQazAory0zJLwEz/opTUIqBoLAA=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [KPITABLE = _t]),
+		    #"Changed Type" = Table.TransformColumnTypes(Source,{{"KPITABLE", type text}})
+		in
+		    #"Changed Type"
+	lineageTag: dd2c5a3b-ea81-493b-8be7-6d1bdd774ceb
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

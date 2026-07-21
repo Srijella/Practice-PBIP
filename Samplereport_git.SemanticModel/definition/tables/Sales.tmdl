@@ -1,0 +1,146 @@
+table Sales
+	lineageTag: 2b3364b6-0951-4732-a659-758e51d82e71
+
+	measure cus
+		lineageTag: 585d5485-1edf-4587-95e8-e0418151d7f7
+
+	measure Total_sales = SUM(Sales[Sales Amount])
+		lineageTag: 18674cf0-b1e2-419e-a75f-560c5b18dd2c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure TYTD = TOTALYTD(SUM(Sales[Sales Amount]), 'Date'[Date])
+		lineageTag: 7b1fe88f-1977-4c27-af5c-8f18810d8321
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Countsales = COUNT(Sales[Product])
+		formatString: 0
+		lineageTag: 7561e1a9-973c-42da-96f7-1719eeca01e6
+
+	measure AvgSales = AVERAGE(Sales[Sales Amount])
+		lineageTag: 055b1fcf-7a41-4c16-8b03-a1fdc61f5d0d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Selected KPI Value' = ```
+			
+			
+			    SWITCH(
+			        SELECTEDVALUE('KPI Selector'[KPI], "Sales"),
+			        "Sales",[Total_sales],
+			        "Count",  [Countsales],
+			        "Average", [AvgSales],
+			        BLANK()
+			    )
+			
+			```
+		lineageTag: 5785cb8c-3b21-47c9-ace9-ffc7f965c035
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'KPI Title' = ```
+			
+			"Selected KPI: " & SELECTEDVALUE('KPI Selector'[KPI], "Sales")
+			
+			```
+		lineageTag: 3f64a382-4e5f-47bb-8873-b1d77f4f121a
+
+	column 'Order ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: 548c0cc2-3a2f-43b7-a65d-5fb49d7c4d54
+		summarizeBy: count
+		sourceColumn: Order ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 656941e9-a7b6-4ad9-bde4-d5416e673ed8
+		summarizeBy: none
+		sourceColumn: Date
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Customer ID'
+		dataType: string
+		lineageTag: f75f2b16-c66e-48d4-bd80-c82293d5be5d
+		summarizeBy: none
+		sourceColumn: Customer ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Product
+		dataType: string
+		lineageTag: 9a37e376-8288-4455-80c5-b2bdf46e4177
+		summarizeBy: none
+		sourceColumn: Product
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: fce9ff40-8a33-4ae0-ae0c-e1fec8281a42
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quantity
+		dataType: int64
+		formatString: 0
+		lineageTag: 6d50d442-13dd-42ec-aa79-8d7d6c26a3cd
+		summarizeBy: sum
+		sourceColumn: Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Unit Price'
+		dataType: double
+		lineageTag: 346decb9-9ca9-444f-91e3-e7d8aa949174
+		summarizeBy: sum
+		sourceColumn: Unit Price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Sales Amount'
+		dataType: double
+		lineageTag: 7288fda1-4439-487f-ac77-8dd1a0bd2efe
+		summarizeBy: sum
+		sourceColumn: Sales Amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column YTD = TOTALYTD(SUM(Sales[Sales Amount]),'DATE'[Date])
+		lineageTag: fc6cf782-bee8-4aeb-8fef-071f98f79c60
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Sales = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\10849622\Downloads\customer_sales_sample.xlsx"), null, true),
+				    Sales_Sheet = Source{[Item="Sales",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Sales_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Order ID", Int64.Type}, {"Date", Int64.Type}, {"Customer ID", type text}, {"Product", type text}, {"Category", type text}, {"Quantity", Int64.Type}, {"Unit Price", type number}, {"Sales Amount", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

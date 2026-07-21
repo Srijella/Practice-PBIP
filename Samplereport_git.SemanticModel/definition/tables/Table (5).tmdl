@@ -1,0 +1,34 @@
+table 'Table (5)'
+	lineageTag: ac7970a2-2b2e-4fea-be8e-770c8488c60a
+
+	column Country
+		dataType: string
+		lineageTag: 17e2ec88-5d40-4696-9a5c-94a8d94f1a64
+		dataCategory: County
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sales
+		dataType: int64
+		formatString: 0
+		lineageTag: cc19db78-8a0a-47e2-a983-2b404332bb23
+		summarizeBy: sum
+		sourceColumn: Sales
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Table (5)' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45W8sxLyUxU0lEyVIrViVZyzsjMA/MMwFzHtPSMxLzM4pLEPKCgJVSwtLikKDEHSZdXYgFYgZGlUmwsAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Country = _t, Sales = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Country", type text}, {"Sales", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
