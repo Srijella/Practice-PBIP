@@ -1,0 +1,42 @@
+table Table
+	lineageTag: ec6615bd-d74a-4d6b-9c4e-7be1a91fef02
+
+	column A
+		dataType: string
+		lineageTag: 184c7f23-b347-40b7-a09c-1b59ba75b4dc
+		summarizeBy: none
+		sourceColumn: A
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Removed Characters'
+		dataType: string
+		lineageTag: 8bcfa260-2c2e-4eec-8145-58d04f087eaa
+		summarizeBy: none
+		sourceColumn: Removed Characters
+
+		annotation SummarizationSetBy = Automatic
+
+	column Custom
+		dataType: string
+		lineageTag: fbcda7ec-fae5-4e3b-b63e-e8261ddc41ee
+		summarizeBy: none
+		sourceColumn: Custom
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Table = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMjRKSslONjFVitWJVkoEsi0tDQoLwTwDy6SUZEOl2FgA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [A = _t]),
+				    #"Inserted Removed Characters" = Table.AddColumn(Source, "Removed Characters", each Text.Remove([A], {"0".."9"}), type text),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Inserted Removed Characters",{{"A", type text}}),
+				    #"Added Custom" = Table.AddColumn(#"Changed Type", "Custom", each Text.Remove([A],{"1".."9"}))
+				in
+				    #"Added Custom"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,24 @@
+table 'TopN Selector'
+	lineageTag: 1cebf8df-5991-4b95-b96b-84db8222da5c
+
+	column TopN
+		dataType: int64
+		formatString: 0
+		lineageTag: 8ff7c6ae-98e7-4430-ad87-7fdd3b5fcb9a
+		summarizeBy: sum
+		sourceColumn: TopN
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'TopN Selector' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMjRQitWJVjKCUKYQytAASMcCAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [TOP = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"TOP", Int64.Type}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"TOP", "TopN"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_ResultType = Table
+

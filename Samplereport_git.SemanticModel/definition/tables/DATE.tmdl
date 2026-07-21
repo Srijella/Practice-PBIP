@@ -1,0 +1,36 @@
+table DATE
+	lineageTag: 1b2e4bd7-f3e4-453a-96f1-d68c11d73f38
+
+	column Date
+		formatString: General Date
+		lineageTag: 97af1346-04af-4fa4-a3eb-8140f1cf1159
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		variation Variation
+			isDefault
+			relationship: e16c11f5-dd67-493e-90d8-aa26985fc355
+			defaultHierarchy: LocalDateTable_53dfd67d-517e-42aa-93e6-605300279b2a.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	column Year
+		formatString: 0
+		lineageTag: 88978545-e12f-41e8-a98c-c1b6d6770c27
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Year]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DATE = calculated
+		mode: import
+		source =
+				ADDCOLUMNS(CALENDAR(MIN(Customers[Join Date]),MAX(Customers[Join Date])),
+				 "Year", YEAR([Date]))
+
+	annotation PBI_Id = 34c27a178b4a4de59e447e9b9d933d71
+

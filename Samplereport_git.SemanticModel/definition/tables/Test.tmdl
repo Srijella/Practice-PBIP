@@ -1,0 +1,25 @@
+table Test
+	lineageTag: 761feac6-d6ed-4c3b-954a-0654bd4718ca
+
+	column UniontestA
+		dataType: string
+		lineageTag: 0d5e2a1e-6379-4d9d-a5c1-4fa240cca3b7
+		summarizeBy: none
+		sourceColumn: UniontestA
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Test = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WCi7KVIrViVYKSgRTjillYNoHwvUFUrEA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Table2 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Table2", type text}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"Table2", "UniontestA"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,31 @@
+model Model
+	culture: en-IN
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-IN
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["Customers","Sales","TOPBOTTOM","Table","Table (2)","Test","Table (3)","TopN Selector","Table (5)"]
+
+annotation PBI_ProTooling = ["TMDLView_Desktop","DevMode","DaxQueryView_Desktop"]
+
+ref table Customers
+ref table Sales
+ref table TOPBOTTOM
+ref table parameter
+ref table DATE
+ref table DateTableTemplate_39c191f0-fc41-458b-94d6-38c8ecb2c352
+ref table LocalDateTable_53dfd67d-517e-42aa-93e6-605300279b2a
+ref table Table
+ref table 'Table (2)'
+ref table Test
+ref table UnionTest
+ref table 'KPI Selector'
+ref table 'TopN Selector'
+ref table 'Table (5)'
+
+ref cultureInfo en-IN
+
